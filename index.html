@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MT AG Demo page</title>
+    <script src="./node_modules/fetch-jsonp/build/fetch-jsonp.js"></script>
+    <script src="./node_modules/mustache/mustache.js"></script>
+    <script src="./index.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body class="body">
+    <header class="header">
+        <div class="header-logo">
+            <img src="assets/itunes.png" alt="iTunes Logo" class="header-logo__img">
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="panel panel--left">
+            <h3>Suche</h3>
+            <form class="search-form" id="searchForm" data-url="http://itunes.apple.com/search">
+                <span class="search-form__form-control">
+                    <label class="search-form__label" for="term">Suchbegriff:</label>
+                    <input class="search-form__term" id="term" type="text">
+                </span>
+                <span class="search-form__form-control">
+                    <label class="search-form__label" for="media">Typ:</label>
+                    <span class="search-form__select">
+                        <select class="search-form__media" id="media">
+                            <option value="all">alle Kategorien</option>
+                            <option value="music">Musik</option>
+                            <option disabled value="musicVideo">Musikvideo</option>
+                            <option disabled value="audioBook">Hörbuch</option>
+                            <option disabled value="podcast">Spielfilm</option>
+                            <option disabled value="tvShow">TV-Serie</option>
+                            <option disabled value="shortFilm">Kurzfilm</option>
+                            <option disabled value="software">Software</option>
+                            <option disabled value="ebook">E-Book</option>
+                        </select>
+                    </span>
+                </span>
+                <span class="search-form__form-control">
+                    <label class="search-form__label" for="limit">Anzahl:</label>
+                    <span class="search-form__select">
+                        <select class="search-form__limit" id="limit">
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                    </span>
+                </span>
+                <button class="search-form__btn-submit" type="submit" id="submitButton">absenden</button>
+            </form>
+        </div>
+        <div class="panel panel--right">
+            <h3>Suchergebnisse</h3>
+            <div class="search-results">
+                <p class="search-results__info-text">
+                    Es wurde noch keine Suche durchgeführt.
+                </p>
+                <p class="search-results__error-text">
+                    Leider wurden keine Ergebnisse gefunden.
+                </p>
+                <ul class="search-results-outlet" id="searchResultOutlet">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
