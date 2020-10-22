@@ -60,10 +60,20 @@
             searchResultOutlet.appendChild(numSearchResults);
 
             iTunesDataObject.results.forEach(entry => {
-                console.log(entry.artistName);
-                template = document.createElement('div')
-                template.innerHTML = `${entry.artistName} - ${entry.collectionName}`;
-                searchResultOutlet.appendChild(template);
+                fetch('searchResultEntry.mustache')
+                    .then((response) => response.text())
+                    .then((template) => {
+                        let rendered = Mustache.render(template, {
+                            artist: entry.artistName,
+                            track: entry.trackName,
+                            collection: entry.collectionName,
+                            artwork: entry.artworkUrl100
+                        });
+
+                        searchResultEntry = document.createElement('div');
+                        searchResultEntry.innerHTML = rendered;
+                        searchResultOutlet.appendChild(searchResultEntry);
+                    });
             });
         });
     }
