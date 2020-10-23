@@ -24,11 +24,11 @@
         <div class="panel panel--left">
             <h3>Suche</h3>
             <form class="search-form" id="searchForm" data-url="http://itunes.apple.com/search">
-                <span class="search-form__form-control">
+                <span class="search-form__form-control" id="termControl">
                     <label class="search-form__label" for="term">Suchbegriff:</label>
                     <input class="search-form__term" id="term" type="text">
                 </span>
-                <span class="search-form__form-control">
+                <span class="search-form__form-control" id="labelControl">
                     <label class="search-form__label" for="media">Typ:</label>
                     <span class="search-form__select">
                         <select class="search-form__media" id="media">
@@ -41,6 +41,15 @@
                             <option disabled value="shortFilm">Kurzfilm</option>
                             <option disabled value="software">Software</option>
                             <option disabled value="ebook">E-Book</option>
+                        </select>
+                    </span>
+                </span>
+                <span class="search-form__form-control" id="entityControl">
+                    <label class="search-form__label" for="entity">Art:</label>
+                    <span class="search-form__select">
+                        <select class="search-form__entity" id="entity">
+                            <option value="album">Album</option>
+                            <option value="song">Song</option>
                         </select>
                     </span>
                 </span>

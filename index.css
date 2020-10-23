@@ -111,6 +111,16 @@ html {
     width: 100%;
 }
 
+.search-form__entity {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-white);
+    font-size: 15px;
+    padding: var(--padding-form-control);
+    width: 100%;
+}
+
 .search-form__select::after {
     content: '\f078';
     color: var(--color-gray);
@@ -182,88 +192,131 @@ html {
 .search-results-outlet {
     padding: 0;
     list-style: none;
-  }
-  
-  .search-result {
-      border: solid 1px #b1b1b1;
-      margin: 15px 0;
-      background: white;
-      padding: 15px;
-      border-collapse: collapse;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-content: space-between;
-      border-radius: 4px;
-      -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-      -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-      box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-  }
-  
-  .search-result__audio-preview {
+}
+
+.search-result {
+    border: solid 1px #b1b1b1;
+    margin: 15px 0;
+    background: white;
+    padding: 15px;
+    border-collapse: collapse;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    border-radius: 4px;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+}
+
+.search-result__audio-preview {
     outline: none;
     width: 280px;
-      height: 40px;
-  }
-  
-  .search-result__artist-url {
-    color: #656565; 
+    height: 40px;
+}
+
+.search-result__artist-url {
+    color: #000; 
     text-decoration: none;
-  }
-  
-  .search-result__artist-url:hover {
+}
+
+.search-result__artist::before {
+    content: 'Band / Interpret:';
+    font-size: 10px;
+    color: #0778db;
+    padding-right: 5px;
+    font-weight: 100;
+    display: block;
+}
+
+.search-result__artist-url:hover {
     color: #000000; 
-  }
-  
-  .search-result__artist {
-      width: calc(50% - 7.5px);
-      display: inline-block;
-      min-height: 70px;
-      font-weight: 700;
-    
-  }
-  
-  .search-result__artwork-url {
-      display: inline-block;
-      width: calc(50% - 7.5px);
-      min-height: 70px;
-  }
-  
-  .search-result__track-name {
-      display: inline-block;
-      width: calc(50% - 7.5px);
-      min-height: 0;
-      padding-top: 20px;
-      margin-top: -45px;
-  }
-  
-  .search-result__track-url {
+}
+
+.search-result__artist {
+    width: calc(50% - 7.5px);
+    display: inline-block;
+    min-height: 70px;
+}
+
+.search-result__artwork-url {
+    display: inline-block;
+    width: calc(50% - 7.5px);
+    min-height: 70px;
+}
+
+.search-result__collection-url {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+}
+
+.search-result__collection-url:hover {
+    color: #222;
+}
+
+.search-result__track-name {
+    display: inline-block;
+    width: calc(50% - 7.5px);
+    min-height: 0;
+    padding-top: 20px;
+    margin-top: -45px;
+}
+
+.search-result__track-url {
     color: #0074da; 
     text-decoration: none;
-        transform: translateY(-10px);
-      display: block;
-  }
-  
-  .search-result__track-url:hover {
-    color: #0056a1; 
-  }
-  
-  .search-result__collection-name {
-      width: calc(50% - 7.5px);
-      display: inline-block;
-      min-height: 0;
-      padding-top: 20px;
-      text-align: right;
-      font-size: 12px;
-  }
-  
-  .search-result__artwork-img {
-      width: 100px;
-      min-height: 100px;
-      display: block;
-      border: solid 1px #d2d2d2;
-      float: right;
-  }
+    transform: translateY(-10px);
+    display: block;
+}
+
+.search-result__track-url:hover {
+color: #0056a1; 
+}
+
+.search-result__collection-name {
+    width: calc(50% - 7.5px);
+    display: inline-block;
+    min-height: 0;
+    padding-top: 20px;
+    text-align: right;
+    font-size: 12px;
+    text-decoration: none;
+    color: #000;
+}
+
+.search-result__collection-name::before {
+    content: 'Album:';
+    font-size: 10px;
+    color: #0778db;
+    padding-right: 5px;
+}
+
+.search-result__collection-name--left {
+    width: calc(50% - 7.5px);
+    display: inline-block;
+    min-height: 0;
+    margin-top: -55px;
+    text-align: left;
+    font-size: inherit;
+}
+
+.search-result__collection-name--left::before {
+    content: 'Album:';
+    font-size: 10px;
+    color: #0778db;
+    padding-right: 5px;
+    display: block;
+}
+
+.search-result__artwork-img {
+    width: 100px;
+    min-height: 100px;
+    display: block;
+    border: solid 1px #d2d2d2;
+    float: right;
+}
 
 @media screen and (min-width: 481px) {
     .panel--left {

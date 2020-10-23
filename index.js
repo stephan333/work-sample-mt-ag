@@ -4,7 +4,8 @@
         SUBMIT_BUTTON: '#submitButton',
         TERM: '#term',
         MEDIA: '#media',
-        LIMIT: '#limit'
+        LIMIT: '#limit',
+        ENTITY: '#entity'
     }
 
     document.addEventListener('DOMContentLoaded', iTunesDataHandler)
@@ -24,7 +25,8 @@
         let searchConfig = {
             term: searchForm.querySelector(config.TERM).value,
             media: searchForm.querySelector(config.MEDIA).value,
-            limit: searchForm.querySelector(config.LIMIT).value
+            limit: searchForm.querySelector(config.LIMIT).value,
+            entity: searchForm.querySelector(config.ENTITY).value
         };
 
         let searchUrl = generateSearchUrl(baseUrl, searchConfig);
@@ -57,17 +59,44 @@
     }
 
     async function generateSearchResultEntry(entry) {
-        let mustache = await fetch('searchResultEntry.mustache');
-        let response = await mustache.text();
-        let rendered = Mustache.render(response, {
-            artist: entry.artistName,
-            track: entry.trackName,
-            collection: entry.collectionName,
-            artwork: entry.artworkUrl100,
-            artistUrl: entry.artistViewUrl,
-            trackUrl: entry.trackViewUrl,
-            previewUrl: entry.previewUrl
-        });
+        let mustache;
+        let response;
+        let rendered;
+                
+        if (entry.wrapperType === 'collection') {
+            mustache = await fetch('resultCollection.mustache');
+            response = await mustache.text();
+            rendered = Mustache.render(response, {
+                artist: entry.artistName,
+                collection: entry.collectionName,
+                collectionViewUrl: entry.collectionViewUrl,
+                artwork: entry.artworkUrl100,
+                artistUrl: entry.artistViewUrl,
+            });
+        } else {
+            mustache = await fetch('resultTrack.mustache');
+            response = await mustache.text();
+            rendered = Mustache.render(response, {
+                artist: entry.artistName,
+                track: entry.trackName,
+                collection: entry.collectionName,
+                collectionViewUrl: entry.collectionViewUrl,
+                artwork: entry.artworkUrl100,
+                artistUrl: entry.artistViewUrl,
+                trackUrl: entry.trackViewUrl,
+                previewUrl: entry.previewUrl
+            });
+        }
+
+
+
+
+
+
+
+
+
+
 
         searchResultEntry = document.createElement('div');
         searchResultEntry.innerHTML = rendered;
@@ -75,7 +104,7 @@
     }
 
     async function generateSearchResults(iTunesDataObject) {
-        let mustache = await fetch('searchResultHeader.mustache');
+        let mustache = await fetch('resultHeader.mustache');
         let response = await mustache.text();
         let rendered = Mustache.render(response, {
             resultCount: iTunesDataObject.resultCount

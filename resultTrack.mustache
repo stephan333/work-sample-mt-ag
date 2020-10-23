@@ -10,6 +10,8 @@
         <audio class="search-result__audio-preview" src="{{ previewUrl }}" type="audio/x-m4a" controls>
             <code> Your browser doesn't support audio tags</code>
         </audio>
-        </span>
-    <span class="search-result__collection-name">{{ collection }}</span>
+    </span>
+    <span class="search-result__collection-name">
+        <a class="search-result__collection-url" target="_blank" href="{{ collectionViewUrl }}">{{ collection }}</a>
+    </span>
 </li>
