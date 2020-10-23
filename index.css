@@ -153,6 +153,22 @@ html {
     width: 100%;
 }
 
+.search-results__header {
+    border: solid 1px #b1b1b1;
+    margin: 15px 0;
+    background: white;
+    padding: 15px;
+    border-collapse: collapse;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    border-radius: 4px;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+}
+
 .search-results__info-text {
     color: var(--color-info-default);
     display: none;
@@ -162,6 +178,92 @@ html {
     color: var(--color-error-default);
     display: none;
 }
+
+.search-results-outlet {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .search-result {
+      border: solid 1px #b1b1b1;
+      margin: 15px 0;
+      background: white;
+      padding: 15px;
+      border-collapse: collapse;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
+      border-radius: 4px;
+      -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+      -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+      box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
+  }
+  
+  .search-result__audio-preview {
+    outline: none;
+    width: 280px;
+      height: 40px;
+  }
+  
+  .search-result__artist-url {
+    color: #656565; 
+    text-decoration: none;
+  }
+  
+  .search-result__artist-url:hover {
+    color: #000000; 
+  }
+  
+  .search-result__artist {
+      width: calc(50% - 7.5px);
+      display: inline-block;
+      min-height: 70px;
+      font-weight: 700;
+    
+  }
+  
+  .search-result__artwork-url {
+      display: inline-block;
+      width: calc(50% - 7.5px);
+      min-height: 70px;
+  }
+  
+  .search-result__track-name {
+      display: inline-block;
+      width: calc(50% - 7.5px);
+      min-height: 0;
+      padding-top: 20px;
+      margin-top: -45px;
+  }
+  
+  .search-result__track-url {
+    color: #0074da; 
+    text-decoration: none;
+        transform: translateY(-10px);
+      display: block;
+  }
+  
+  .search-result__track-url:hover {
+    color: #0056a1; 
+  }
+  
+  .search-result__collection-name {
+      width: calc(50% - 7.5px);
+      display: inline-block;
+      min-height: 0;
+      padding-top: 20px;
+      text-align: right;
+      font-size: 12px;
+  }
+  
+  .search-result__artwork-img {
+      width: 100px;
+      min-height: 100px;
+      display: block;
+      border: solid 1px #d2d2d2;
+      float: right;
+  }
 
 @media screen and (min-width: 481px) {
     .panel--left {

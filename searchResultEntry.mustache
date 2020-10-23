@@ -1,8 +1,15 @@
-<div class="search-result">
-    <span class="search-result__artist">{{ artist }}</span>
+<li class="search-result">
+    <span class="search-result__artist">
+        <a class="search-result__artist-url" target="_blank" href="{{ artistUrl }}">{{ artist }}</a>
+    </span>
     <span class="search-result__artwork-url">
         <img src="{{ artwork }}" alt="" class="search-result__artwork-img">
     </span>
-    <span class="search-result__track-name">{{ track }}</span>
+    <span class="search-result__track-name">
+        <a class="search-result__track-url" target="_blank" href="{{ trackUrl }}">{{ track }}</a>
+        <audio class="search-result__audio-preview" src="{{ previewUrl }}" type="audio/x-m4a" controls>
+            <code> Your browser doesn't support audio tags</code>
+        </audio>
+        </span>
     <span class="search-result__collection-name">{{ collection }}</span>
-</div>
+</li>

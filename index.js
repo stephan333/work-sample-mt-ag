@@ -45,36 +45,52 @@
 
     function searchFormClickHandler(e) {
         e.preventDefault();
+        let searchResultOutlet = document.querySelector('#searchResultOutlet');
+
+        removeAllChildNodes(searchResultOutlet);
 
         // Debugging Purposes
         iTunesDataFetcher().then((iTunesDataObject) => {
             console.log(iTunesDataObject);
-
-            // Hier weitermachen
-            let searchResultOutlet = document.querySelector('#searchResultOutlet');
-            let numSearchResults = document.createElement('span');
-            let entry
-
-            numSearchResults.innerHTML = `Es wurden ${iTunesDataObject.resultCount} Ergebnisse gefunden:`;
-            searchResultOutlet.innerHTML = '';
-            searchResultOutlet.appendChild(numSearchResults);
-
-            iTunesDataObject.results.forEach(entry => {
-                fetch('searchResultEntry.mustache')
-                    .then((response) => response.text())
-                    .then((template) => {
-                        let rendered = Mustache.render(template, {
-                            artist: entry.artistName,
-                            track: entry.trackName,
-                            collection: entry.collectionName,
-                            artwork: entry.artworkUrl100
-                        });
-
-                        searchResultEntry = document.createElement('div');
-                        searchResultEntry.innerHTML = rendered;
-                        searchResultOutlet.appendChild(searchResultEntry);
-                    });
-            });
+            generateSearchResults(iTunesDataObject);
         });
+    }
+
+    async function generateSearchResultEntry(entry) {
+        let mustache = await fetch('searchResultEntry.mustache');
+        let response = await mustache.text();
+        let rendered = Mustache.render(response, {
+            artist: entry.artistName,
+            track: entry.trackName,
+            collection: entry.collectionName,
+            artwork: entry.artworkUrl100,
+            artistUrl: entry.artistViewUrl,
+            trackUrl: entry.trackViewUrl,
+            previewUrl: entry.previewUrl
+        });
+
+        searchResultEntry = document.createElement('div');
+        searchResultEntry.innerHTML = rendered;
+        searchResultOutlet.appendChild(searchResultEntry.firstChild);
+    }
+
+    async function generateSearchResults(iTunesDataObject) {
+        let mustache = await fetch('searchResultHeader.mustache');
+        let response = await mustache.text();
+        let rendered = Mustache.render(response, {
+            resultCount: iTunesDataObject.resultCount
+        });
+
+        searchResultHeader = document.createElement('div');
+        searchResultHeader.innerHTML = rendered;
+        searchResultOutlet.appendChild(searchResultHeader.firstChild);
+
+        iTunesDataObject.results.forEach(generateSearchResultEntry);
+    }
+
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
     }
 })()
