@@ -76,13 +76,9 @@ var appVersion = '0.1.0';
 
         if (iTunesDataObject.resultCount === 0) {
             let searchTerm = encodeURIComponent(currentSearchTerm);
+            let templateFile = 'templates/emptyResultSet.mustache';
 
-            mustache = await fetch('templates/emptyResultSet.mustache');
-            response = await mustache.text();
-            rendered = Mustache.render(response, { searchTerm });
-            searchResultEntry = document.createElement('div');
-            searchResultEntry.innerHTML = rendered;
-            searchResultOutlet.prepend(searchResultEntry.firstChild);
+            searchResultOutlet.prepend(await generateTemplate(templateFile, searchTerm));
             showLoadingAnimation(false, bodyElement)
         } else {
             generateSearchResults(iTunesDataObject);
@@ -91,9 +87,6 @@ var appVersion = '0.1.0';
 
     // let scope
     async function generateSearchResultEntry(entry) {
-        let mustache;
-        let response;
-        let rendered;
         let artist = entry.artistName;
         let releaseDate = englishToGermanDate(entry.releaseDate);
         let baseModel = {
@@ -104,46 +97,40 @@ var appVersion = '0.1.0';
             artistUrl: entry.artistViewUrl,
             releaseDate
         };
+        let searchResultEntry;
+        let templateFile;
+        let templateVars;
 
         if (entry.wrapperType === 'collection') {
-            mustache = await fetch('templates/resultCollection.mustache');
-            response = await mustache.text();
-            rendered = Mustache.render(response, { ...baseModel });
+            templateFile = 'templates/resultCollection.mustache';
+            searchResultEntry = await generateTemplate(templateFile, baseModel);
         } else {
             let track = entry.trackName;
             let searchTerm = encodeURIComponent(`${artist} ${track}`);
 
-            mustache = await fetch('templates/resultTrack.mustache');
-            response = await mustache.text();
-
-            rendered = Mustache.render(response, {
+            templateFile = 'templates/resultCollection.mustache';
+            templateVars = {
                 ...baseModel,
                 track,
                 trackUrl: entry.trackViewUrl,
                 previewUrl: entry.previewUrl,
                 searchTerm
-            });
+            };
+            searchResultEntry = await generateTemplate(templateFile, templateVars);
         }
 
-        searchResultEntry = document.createElement('div');
-        searchResultEntry.innerHTML = rendered;
-        searchResultOutlet.appendChild(searchResultEntry.firstChild);
+        searchResultOutlet.appendChild(searchResultEntry);
     }
 
     async function generateSearchResults(iTunesDataObject) {
-        let mustache = await fetch('templates/resultHeader.mustache');
-        let response = await mustache.text();
-        let rendered = Mustache.render(response, {
-            resultCount: iTunesDataObject.resultCount
-        });
         let bodyElement = document.querySelector('#body');
+        let templateFile = 'templates/resultHeader.mustache'
+        let templateVars = {
+            resultCount: iTunesDataObject.resultCount
+        };
 
-        searchResultHeader = document.createElement('div');
-        searchResultHeader.innerHTML = rendered;
-        searchResultOutlet.appendChild(searchResultHeader.firstChild);
-
+        searchResultOutlet.appendChild(await generateTemplate(templateFile, templateVars));
         iTunesDataObject.results.forEach(generateSearchResultEntry);
-
         showLoadingAnimation(false, bodyElement);
     }
 
@@ -154,20 +141,31 @@ var appVersion = '0.1.0';
     }
 
     async function showLoadingAnimation(toggleValue, targetNode) {
-        let mustache = await fetch('templates/loadingAnimation.mustache');
-        let response = await mustache.text();
-        let rendered = Mustache.render(response);
-
         if (toggleValue === true) {
-            animationNode = document.createElement('div');
-            animationNode.innerHTML = rendered;
-            targetNode.appendChild(animationNode.firstChild);
+            let templateFile = 'templates/loadingAnimation.mustache';
+            targetNode.appendChild(await generateTemplate(templateFile));
         } else {
-            targetNode.removeChild(targetNode.lastChild);
+            let loadingAnimationNode = targetNode.lastChild;
+
+            if (loadingAnimationNode.id = 'loadingAnimation') {
+                targetNode.removeChild(loadingAnimationNode);
+            }
         }
     }
 
     function englishToGermanDate(dateString) {
         return `${dateString.substr(8, 2)}.${dateString.substr(5, 2)}.${dateString.substr(0, 4)}`;
     }
+
+    async function generateTemplate(template, templateVars = null) {
+        let mustache = await fetch(template);
+        let response = await mustache.text();
+        let rendered = Mustache.render(response, templateVars);
+    
+        wrapperElement = document.createElement('div');
+        wrapperElement.innerHTML = rendered;
+        
+        return wrapperElement.firstChild;
+    }
 })(window)
+

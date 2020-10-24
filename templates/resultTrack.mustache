@@ -1,18 +1,18 @@
 <li class="search-result">
     <span class="search-result__artist">
-        <a class="search-result__artist-url" target="_blank" href="{{ artistUrl }}">{{ artist }}</a>
+        <a translate="no" class="search-result__artist-url" target="_blank" href="{{ artistUrl }}">{{ artist }}</a>
     </span>
     <span class="search-result__artwork-url">
         <img src="{{ artwork }}" alt="" class="search-result__artwork-img">
     </span>
     <span class="search-result__track-name">
-        <a class="search-result__track-url" target="_blank" href="{{ trackUrl }}">{{ track }}</a>
+        <a translate="no" class="search-result__track-url" target="_blank" href="{{ trackUrl }}">{{ track }}</a>
         <audio class="search-result__audio-preview" src="{{ previewUrl }}" type="audio/x-m4a" controls>
-            <code> Your browser doesn't support audio tags</code>
+            <code>Dein Browser unterstützt kein Audio-Tag.</code>
         </audio>
     </span>
     <span class="search-result__collection-name">
-        <a class="search-result__collection-url" target="_blank" href="{{ collectionViewUrl }}">{{ collection }}</a>
+        <a translate="no" class="search-result__collection-url" target="_blank" href="{{ collectionViewUrl }}">{{ collection }}</a>
         <span class="search-result__release-date">{{ releaseDate }}</span>
     </span>
     <span class="search-result__ext-links">
