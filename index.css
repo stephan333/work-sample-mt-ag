@@ -1,12 +1,36 @@
 :root {
     /* colors */
-    --color-header: rgb(179, 179, 179);
-    --color-header-logo-text: rgb(112, 111, 111);
-    --color-body: rgb(226, 225, 225);
+    --color-royal-blue: rgb(68, 129, 235);
+    --color-glacier: rgb(127, 161, 191);
+    --color-black: rgb(0, 0, 0);
+    --color-nero: rgb(36, 36, 36);
+    --color-dim-gray: rgb(111, 111, 111);
+    --color-gray-alpha: rgb(255, 255, 255, .5);
+    --color-silver: rgb(182, 182, 182);
+    --color-gainsboro: rgb(225, 225, 225);
+    --color-white-smoke: rgb(238, 238, 238);
     --color-white: rgb(255, 255, 255);
-    --color-gray: rgb(182, 180, 180);
-    --color-info-default: rgb(33, 101, 255);
-    --color-error-default: rgb(185, 6, 0);
+
+    /* element colors */
+    --color-body-bg: var(--color-gainsboro);
+    --color-header-bg: var(--color-nero);
+    --color-header-border: var(--color-silver);
+    --color-header-logo-filter: var(--color-silver);
+    --color-header-logo-text: var(--color-dim-gray);
+    --color-box-shadow: var(--color-silver);
+    --color-box-border: var(--color-silver);
+    --color-form-bg: var(--color-white-smoke);
+    --color-form-control-border: var(--color-glacier);
+    --color-results-header-bg: var(--color-white-smoke);
+    --color-results-info: var(--color-nero);
+    --color-results-label: var(--color-royal-blue);
+    --color-results-artwork-border: var(--color-body);
+    --color-font-default: var(--color-nero);
+    --color-font-light: var(--color-nero);
+    --color-loading-animation: var(--color-gray-alpha);
+    --color-url-hover: var(--color-black);
+    --color-result-track-url: var(--color-nero);
+    --color-result-track-url-hover: var(--color-blacka);
 
     /* sizes */
     --header-height: 100px;
@@ -32,7 +56,7 @@ html {
 }
 
 h3 {
-    color: #0778db;
+    color: var(--color-royal-blue);
 }
 
 @media screen and (max-width: 480px) {
@@ -52,23 +76,23 @@ h3 {
 }
 
 .header {
+    -webkit-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    -moz-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
     height: var(--header-height);
     justify-content: left;
     padding: var(--padding-default);
     position: relative;
-    border-bottom: solid 1px #b1b1b1;
-    background: #242424;
+    border-bottom: solid 1px var(--color-header-border);
+    background: var(--color-header-bg);
     border-collapse: collapse;
     display: flex;
     flex-wrap: wrap;
     align-content: space-between;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 }
 
 .header-logo::after {
-    color: #b7b7b7;
+    color: var(--color-silver);
     content: 'Medienkatalog';
     display: inline-block;
     font-size: 25px;
@@ -88,7 +112,7 @@ h3 {
 .header-logo__img {
     max-width: 200px;
     transform: translateX(-10px);
-    filter: invert(.9) drop-shadow(3px 3px 2px #666);
+    filter: invert(.9) drop-shadow(3px 3px 2px var(--color-dim-gray));
 }
 
 @media screen and (max-width: 480px) {
@@ -104,11 +128,14 @@ h3 {
 }
 
 .search-form {
+    -webkit-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    -moz-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
     min-height: 100%;
     position: relative;
-    border: solid 1px #b1b1b1;
+    border: solid 1px var(--color-box-border);
     margin: 15px 0;
-    background: #eee;
+    background: var(--color-form-bg);
     padding: 15px;
     border-collapse: collapse;
     display: flex;
@@ -116,9 +143,6 @@ h3 {
     justify-content: space-between;
     align-content: space-between;
     border-radius: 4px;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
 }
 
 .search-form__form-control {
@@ -143,7 +167,7 @@ h3 {
 .search-form__media,
 .search-form__entity,
 .search-form__limit {
-    border: solid 1px #b7b7b7;
+    border: solid 1px var(--color-box-border);
     outline: none;
 }
 
@@ -151,7 +175,7 @@ h3 {
 .search-form__media:focus,
 .search-form__entity:focus,
 .search-form__limit:focus {
-    border: solid 1px #7fa1bf;
+    border: solid 1px var(--color-form-control-border);
 }
 
 .search-form__term {
@@ -182,7 +206,7 @@ h3 {
 
 .search-form__select::after {
     content: '\f078';
-    color: var(--color-gray);
+    color: var(--color-silver);
     font: normal normal normal 17px/1 'FontAwesome';
     height: 34px;
     right: 11px;
@@ -210,8 +234,8 @@ h3 {
     position: absolute;
     right: var(--padding-default);
     width: 87px;
-    background: #0778db;
-    color: white;
+    background: var(--color-royal-blue);
+    color: var(--color-white);
     border: solid 1px black;
     outline: none;
 }
@@ -231,9 +255,12 @@ h3 {
 }
 
 .search-results__header {
-    border: solid 1px #b1b1b1;
+    -webkit-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    -moz-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    border: solid 1px var(--color-box-border);
     margin: 15px 0;
-    background: #eee;
+    background: var(--color-results-header-bg);
     padding: 15px;
     border-collapse: collapse;
     display: flex;
@@ -241,18 +268,15 @@ h3 {
     justify-content: space-between;
     align-content: space-between;
     border-radius: 4px;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
     animation: fadeIn ease-in-out 200ms;
 }
 
 .search-results__info-text {
-    color: rgb(36, 36, 36);
+    color: var(--color-results-info);
 }
 
 .search-results__error-text {
-    color: #333;
+    color: var(--color-font-default);
 }
 
 .search-results-outlet {
@@ -261,9 +285,12 @@ h3 {
 }
 
 .search-result {
-    border: solid 1px #b1b1b1;
+    -webkit-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    -moz-box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    box-shadow: 1px 1px 5px 0px var(--color-box-shadow);
+    border: solid 1px var(--color-box-border);
     margin: 15px 0;
-    background: white;
+    background: var(--color-white);
     padding: 15px;
     border-collapse: collapse;
     display: flex;
@@ -271,9 +298,6 @@ h3 {
     justify-content: space-between;
     align-content: space-between;
     border-radius: 4px;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.23);
     animation: fadeIn ease-in-out 200ms;
 }
 
@@ -296,21 +320,21 @@ h3 {
 }
 
 .search-result__artist-url {
-    color: #000; 
+    color: var(--color-black); 
     text-decoration: none;
 }
 
 .search-result__artist::before {
     content: 'Band / Interpret:';
     font-size: 10px;
-    color: #0778db;
+    color: var(--color-results-label);
     padding-right: 5px;
     font-weight: 100;
     display: block;
 }
 
 .search-result__artist-url:hover {
-    color: #000000; 
+    color: var(--color-black); 
 }
 
 .search-result__artist {
@@ -328,11 +352,11 @@ h3 {
 .search-result__collection-url {
     display: inline-block;
     text-decoration: none;
-    color: #000;
+    color: var(--color-black);
 }
 
 .search-result__collection-url:hover {
-    color: #222;
+    color: var(--color-url-hover);
 }
 
 .search-result__release-date {
@@ -354,14 +378,14 @@ h3 {
 }
 
 .search-result__track-url {
-    color: #0074da; 
+    color: var(--color-result-track-url); 
     text-decoration: none;
     transform: translateY(-10px);
     display: block;
 }
 
 .search-result__track-url:hover {
-    color: #0056a1; 
+    color: var(--color-result-track-url-hover);  
 }
 
 .search-result__collection-name {
@@ -372,13 +396,13 @@ h3 {
     text-align: right;
     font-size: 12px;
     text-decoration: none;
-    color: #000;
+    color: var(--color-black);
 }
 
 .search-result__collection-name::before {
     content: 'Album:';
     font-size: 10px;
-    color: #0778db;
+    color: var(--color-results-label);
     padding-right: 5px;
 }
 
@@ -394,7 +418,7 @@ h3 {
 .search-result__collection-name--left::before {
     content: 'Album:';
     font-size: 10px;
-    color: #0778db;
+    color: var(--color-results-label);
     padding-right: 5px;
     display: block;
 }
@@ -424,7 +448,7 @@ h3 {
     width: 100px;
     min-height: 100px;
     display: block;
-    border: solid 1px #d2d2d2;
+    border: solid 1px var(--color-results-artwork-border);
     float: right;
 }
 
@@ -453,7 +477,7 @@ h3 {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, .5);
+    background: var(--color-loading-animation);
     animation: fadeIn ease 200ms;
 }
 
