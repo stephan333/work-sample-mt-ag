@@ -69,7 +69,6 @@ var appVersion = '0.1.0';
 
     // let scope
     async function generateSearchResultEntry(entry) {
-        let loadingAnimation = document.querySelector('#loadingAnimation');
         let mustache;
         let response;
         let rendered;
