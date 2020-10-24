@@ -10,39 +10,46 @@ var appVersion = '0.1.0';
         var currentSearchType = null;
     }
 
-    console.log(`App-Version: ${currentAppVersion}`);
+    console.log(`iTunes Medienkatalog App-Version: ${currentAppVersion}`);
 
-    const config = {
-        SEARCH_FORM: '#searchForm',
-        SUBMIT_BUTTON: '#submitButton',
-        TERM: '#term',
-        MEDIA: '#media',
-        LIMIT: '#limit',
-        ENTITY: '#entity'
+    const element = {
+        BODY: '#body',
+        searchForm: {
+            FORM: '#searchForm',
+            SUBMIT_BTN: '#submitButton',
+            TERM: '#term',
+            MEDIA: '#media',
+            LIMIT: '#limit',
+            ENTITY: '#entity'
+        },
+        searchResult: {
+            OUTLET: '#searchResultOutlet',
+            INFO: '#searchResultsInfoText'
+        }
     }
 
     document.addEventListener('DOMContentLoaded', iTunesDataHandler)
 
     // scope
     function iTunesDataHandler() {
-        let searchForm = document.querySelector(config.SEARCH_FORM);
-        let submitButton = searchForm.querySelector(config.SUBMIT_BUTTON);
+        let searchForm = document.querySelector(element.searchForm.FORM);
+        let submitButton = searchForm.querySelector(element.searchForm.SUBMIT_BTN);
 
         submitButton.addEventListener('click', searchFormClickHandler);
     }
 
     async function iTunesDataFetcher() {
-        let searchForm = document.querySelector(config.SEARCH_FORM);
+        let searchForm = document.querySelector(element.searchForm.FORM);
         let baseUrl = searchForm.dataset.url;
-        let term = searchForm.querySelector(config.TERM).value;
-        let entity = searchForm.querySelector(config.ENTITY).value;
+        let term = searchForm.querySelector(element.searchForm.TERM).value;
+        let entity = searchForm.querySelector(element.searchForm.ENTITY).value;
 
         currentSearchTerm = term;
 
         let searchConfig = {
             term,
-            media: searchForm.querySelector(config.MEDIA).value,
-            limit: searchForm.querySelector(config.LIMIT).value,
+            media: searchForm.querySelector(element.searchForm.MEDIA).value,
+            limit: searchForm.querySelector(element.searchForm.LIMIT).value,
             entity
         };
 
@@ -70,9 +77,9 @@ var appVersion = '0.1.0';
 
     // async-await
     async function searchFormClickHandler(e) {
-        let searchResultOutlet = document.querySelector('#searchResultOutlet');
-        let bodyElement = document.querySelector('#body');
-        let notSearchedYet = document.querySelector('#searchResultsInfoText');
+        let searchResultOutlet = document.querySelector(element.searchResult.OUTLET);
+        let bodyElement = document.querySelector(element.BODY);
+        let notSearchedYet = document.querySelector(element.searchResult.INFO);
         let iTunesDataObject;
 
         e.preventDefault();
@@ -131,7 +138,7 @@ var appVersion = '0.1.0';
     }
 
     async function generateSearchResults(iTunesDataObject) {
-        let bodyElement = document.querySelector('#body');
+        let bodyElement = document.querySelector(element.BODY);
         let templateFile = 'templates/resultHeader.mustache';
         let resultCount = iTunesDataObject.resultCount;
         let resultCountString;
@@ -171,6 +178,7 @@ var appVersion = '0.1.0';
         return `${dateString.substr(8, 2)}.${dateString.substr(5, 2)}.${dateString.substr(0, 4)}`;
     }
 
+    // async-await
     async function generateTemplate(template, templateVars = null) {
         let mustache = await fetch(template);
         let response = await mustache.text();
