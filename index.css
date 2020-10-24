@@ -199,7 +199,7 @@ h3 {
     background: var(--color-white);
     font-size: 15px;
     padding: var(--padding-form-control);
-    width: 60px;
+    width: 65px;
 }
 
 .search-form__btn-submit {
@@ -335,11 +335,21 @@ h3 {
     color: #222;
 }
 
+.search-result__release-date {
+    display: inline-block;
+    font-size: 10px;
+    display: block;
+    color: #494949;
+}
+
+.search-result__release-date::before {
+    content: 'veröffentlicht: ';
+}
+
 .search-result__track-name {
     display: inline-block;
     width: calc(50% - 7.5px);
     min-height: 0;
-    padding-top: 20px;
     margin-top: -45px;
 }
 
@@ -358,7 +368,7 @@ h3 {
     width: calc(50% - 7.5px);
     display: inline-block;
     min-height: 0;
-    padding-top: 20px;
+    padding-top: 10px;
     text-align: right;
     font-size: 12px;
     text-decoration: none;
@@ -393,7 +403,6 @@ h3 {
     display: inline-block;
     width: calc(100%);
     min-height: 0;
-    padding-top: 20px;
 }
 
 .search-result__yt-link {

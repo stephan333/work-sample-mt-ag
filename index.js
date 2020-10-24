@@ -95,12 +95,14 @@ var appVersion = '0.1.0';
         let response;
         let rendered;
         let artist = entry.artistName;
+        let releaseDate = englishToGermanDate(entry.releaseDate);
         let baseModel = {
             artist,
             collection: entry.collectionName,
             collectionViewUrl: entry.collectionViewUrl,
             artwork: entry.artworkUrl100,
-            artistUrl: entry.artistViewUrl
+            artistUrl: entry.artistViewUrl,
+            releaseDate
         };
 
         if (entry.wrapperType === 'collection') {
@@ -163,5 +165,9 @@ var appVersion = '0.1.0';
         } else {
             targetNode.removeChild(targetNode.lastChild);
         }
+    }
+
+    function englishToGermanDate(dateString) {
+        return `${dateString.substr(8, 2)}.${dateString.substr(5, 2)}.${dateString.substr(0, 4)}`;
     }
 })(window)
