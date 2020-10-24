@@ -4,9 +4,10 @@ var appVersion = '0.1.0';
 // scope, IIFE, namespace
 (function main(window) {
     // var
-    { 
+    {
         var currentAppVersion = window.appVersion;
         var currentSearchTerm = null;
+        var currentSearchType = null;
     }
 
     console.log(`App-Version: ${currentAppVersion}`);
@@ -33,20 +34,27 @@ var appVersion = '0.1.0';
     async function iTunesDataFetcher() {
         let searchForm = document.querySelector(config.SEARCH_FORM);
         let baseUrl = searchForm.dataset.url;
-        let searchTerm = searchForm.querySelector(config.TERM).value;
+        let term = searchForm.querySelector(config.TERM).value;
+        let entity = searchForm.querySelector(config.ENTITY).value;
 
-        currentSearchTerm = searchTerm;
+        currentSearchTerm = term;
 
         let searchConfig = {
-            term: searchTerm,
+            term,
             media: searchForm.querySelector(config.MEDIA).value,
             limit: searchForm.querySelector(config.LIMIT).value,
-            entity: searchForm.querySelector(config.ENTITY).value
+            entity
         };
 
         let searchUrl = generateSearchUrl(baseUrl, searchConfig);
         let rawResult = await fetchJsonp(searchUrl);
         let iTunesDataObject = await rawResult.json();
+
+        if (entity === 'album') {
+            currentSearchType = iTunesDataObject.resultCount === 1 ? 'Album' : 'Alben';
+        } else {
+            currentSearchType = iTunesDataObject.resultCount === 1 ? 'Track' : 'Tracks';
+        }
 
         return iTunesDataObject;
     }
@@ -78,7 +86,7 @@ var appVersion = '0.1.0';
             let searchTerm = encodeURIComponent(currentSearchTerm);
             let templateFile = 'templates/emptyResultSet.mustache';
 
-            searchResultOutlet.prepend(await generateTemplate(templateFile, searchTerm));
+            searchResultOutlet.prepend(await generateTemplate(templateFile, { searchTerm }));
             showLoadingAnimation(false, bodyElement)
         } else {
             generateSearchResults(iTunesDataObject);
@@ -108,7 +116,7 @@ var appVersion = '0.1.0';
             let track = entry.trackName;
             let searchTerm = encodeURIComponent(`${artist} ${track}`);
 
-            templateFile = 'templates/resultCollection.mustache';
+            templateFile = 'templates/resultTrack.mustache';
             templateVars = {
                 ...baseModel,
                 track,
@@ -124,9 +132,15 @@ var appVersion = '0.1.0';
 
     async function generateSearchResults(iTunesDataObject) {
         let bodyElement = document.querySelector('#body');
-        let templateFile = 'templates/resultHeader.mustache'
+        let templateFile = 'templates/resultHeader.mustache';
+        let resultCount = iTunesDataObject.resultCount;
+        let resultCountString;
+
+        resultCountString = resultCount === 1 ? ' ein' : `n ${resultCount}`;
+
         let templateVars = {
-            resultCount: iTunesDataObject.resultCount
+            resultCountString,
+            resultType: currentSearchType
         };
 
         searchResultOutlet.appendChild(await generateTemplate(templateFile, templateVars));
@@ -161,10 +175,10 @@ var appVersion = '0.1.0';
         let mustache = await fetch(template);
         let response = await mustache.text();
         let rendered = Mustache.render(response, templateVars);
-    
+
         wrapperElement = document.createElement('div');
         wrapperElement.innerHTML = rendered;
-        
+
         return wrapperElement.firstChild;
     }
 })(window)
