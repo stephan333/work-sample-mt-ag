@@ -3,7 +3,11 @@ var appVersion = '0.1.0';
 
 // scope, IIFE, namespace
 (function main(window) {
-    { var currentAppVersion = window.appVersion; }
+    // var
+    { 
+        var currentAppVersion = window.appVersion;
+        var currentSearchTerm = null;
+    }
 
     console.log(`App-Version: ${currentAppVersion}`);
 
@@ -29,9 +33,12 @@ var appVersion = '0.1.0';
     async function iTunesDataFetcher() {
         let searchForm = document.querySelector(config.SEARCH_FORM);
         let baseUrl = searchForm.dataset.url;
+        let searchTerm = searchForm.querySelector(config.TERM).value;
+
+        currentSearchTerm = searchTerm;
 
         let searchConfig = {
-            term: searchForm.querySelector(config.TERM).value,
+            term: searchTerm,
             media: searchForm.querySelector(config.MEDIA).value,
             limit: searchForm.querySelector(config.LIMIT).value,
             entity: searchForm.querySelector(config.ENTITY).value
@@ -56,15 +63,30 @@ var appVersion = '0.1.0';
     // async-await
     async function searchFormClickHandler(e) {
         let searchResultOutlet = document.querySelector('#searchResultOutlet');
+        let bodyElement = document.querySelector('#body');
+        let notSearchedYet = document.querySelector('#searchResultsInfoText');
         let iTunesDataObject;
-        let loadingAnimation = document.querySelector('#loadingAnimation');
 
-        loadingAnimation.style.display = 'flex';
         e.preventDefault();
+        showLoadingAnimation(true, bodyElement);
+        notSearchedYet.style.display = 'none';
         removeAllChildNodes(searchResultOutlet);
 
         iTunesDataObject = await iTunesDataFetcher();
-        generateSearchResults(iTunesDataObject);
+
+        if (iTunesDataObject.resultCount === 0) {
+            let searchTerm = encodeURIComponent(currentSearchTerm);
+
+            mustache = await fetch('templates/emptyResultSet.mustache');
+            response = await mustache.text();
+            rendered = Mustache.render(response, { searchTerm });
+            searchResultEntry = document.createElement('div');
+            searchResultEntry.innerHTML = rendered;
+            searchResultOutlet.prepend(searchResultEntry.firstChild);
+            showLoadingAnimation(false, bodyElement)
+        } else {
+            generateSearchResults(iTunesDataObject);
+        }
     }
 
     // let scope
@@ -72,8 +94,9 @@ var appVersion = '0.1.0';
         let mustache;
         let response;
         let rendered;
+        let artist = entry.artistName;
         let baseModel = {
-            artist: entry.artistName,
+            artist,
             collection: entry.collectionName,
             collectionViewUrl: entry.collectionViewUrl,
             artwork: entry.artworkUrl100,
@@ -81,17 +104,22 @@ var appVersion = '0.1.0';
         };
 
         if (entry.wrapperType === 'collection') {
-            mustache = await fetch('resultCollection.mustache');
+            mustache = await fetch('templates/resultCollection.mustache');
             response = await mustache.text();
             rendered = Mustache.render(response, { ...baseModel });
         } else {
-            mustache = await fetch('resultTrack.mustache');
+            let track = entry.trackName;
+            let searchTerm = encodeURIComponent(`${artist} ${track}`);
+
+            mustache = await fetch('templates/resultTrack.mustache');
             response = await mustache.text();
+
             rendered = Mustache.render(response, {
                 ...baseModel,
-                track: entry.trackName,
+                track,
                 trackUrl: entry.trackViewUrl,
-                previewUrl: entry.previewUrl
+                previewUrl: entry.previewUrl,
+                searchTerm
             });
         }
 
@@ -101,11 +129,12 @@ var appVersion = '0.1.0';
     }
 
     async function generateSearchResults(iTunesDataObject) {
-        let mustache = await fetch('resultHeader.mustache');
+        let mustache = await fetch('templates/resultHeader.mustache');
         let response = await mustache.text();
         let rendered = Mustache.render(response, {
             resultCount: iTunesDataObject.resultCount
         });
+        let bodyElement = document.querySelector('#body');
 
         searchResultHeader = document.createElement('div');
         searchResultHeader.innerHTML = rendered;
@@ -113,12 +142,26 @@ var appVersion = '0.1.0';
 
         iTunesDataObject.results.forEach(generateSearchResultEntry);
 
-        loadingAnimation.style.display = 'none';
+        showLoadingAnimation(false, bodyElement);
     }
 
     function removeAllChildNodes(parent) {
         while (parent.firstChild) {
             parent.removeChild(parent.firstChild);
+        }
+    }
+
+    async function showLoadingAnimation(toggleValue, targetNode) {
+        let mustache = await fetch('templates/loadingAnimation.mustache');
+        let response = await mustache.text();
+        let rendered = Mustache.render(response);
+
+        if (toggleValue === true) {
+            animationNode = document.createElement('div');
+            animationNode.innerHTML = rendered;
+            targetNode.appendChild(animationNode.firstChild);
+        } else {
+            targetNode.removeChild(targetNode.lastChild);
         }
     }
 })(window)

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./index.css">
 </head>
 
-<body class="body">
+<body class="body" id="body">
     <header class="header">
         <div class="header-logo">
             <img src="assets/itunes.png" alt="iTunes Logo" class="header-logo__img">
@@ -70,18 +70,12 @@
         <div class="panel panel--right">
             <h3>Suchergebnisse</h3>
             <div class="search-results">
-                <p class="search-results__info-text">
+                <p class="search-results__info-text" id="searchResultsInfoText">
                     Es wurde noch keine Suche durchgeführt.
-                </p>
-                <p class="search-results__error-text">
-                    Leider wurden keine Ergebnisse gefunden.
                 </p>
                 <ul class="search-results-outlet" id="searchResultOutlet"></ul>
             </div>
         </div>
-    </div>
-    <div class="loading-animation" id="loadingAnimation">
-        <img src="./assets/loading.png" alt="Ladeanzeige" class="loading-animation__img">
     </div>
 </body>
 
