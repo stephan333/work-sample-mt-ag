@@ -1,0 +1,12 @@
+rules:
+  bem-depth:
+    - 0
+    - max-depth: 1
+  class-name-format:
+    - 1
+    - convention: hyphenatedbem
+  no-vendor-prefixes:
+    - 0
+  nesting-depth:
+    - 2
+    - max-depth: 5
