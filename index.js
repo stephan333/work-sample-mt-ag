@@ -168,7 +168,7 @@ var appVersion = '0.1.0';
         } else {
             let loadingAnimationNode = targetNode.lastChild;
 
-            if (loadingAnimationNode.id = 'loadingAnimation') {
+            if (loadingAnimationNode.id === 'loadingAnimation') {
                 targetNode.removeChild(loadingAnimationNode);
             }
         }
@@ -183,8 +183,8 @@ var appVersion = '0.1.0';
         let mustache = await fetch(template);
         let response = await mustache.text();
         let rendered = Mustache.render(response, templateVars);
-
-        wrapperElement = document.createElement('div');
+        let wrapperElement = document.createElement('div');
+        
         wrapperElement.innerHTML = rendered;
 
         return wrapperElement.firstChild;
