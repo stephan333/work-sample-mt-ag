@@ -1,0 +1,127 @@
+.search-form {
+  -moz-box-shadow: 1px 1px 5px 0 var(--color-box-shadow);
+  -webkit-box-shadow: 1px 1px 5px 0 var(--color-box-shadow);
+  align-content: space-between;
+  background: var(--color-form-bg);
+  border: solid 1px var(--color-box-border);
+  border-collapse: collapse;
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px 0 var(--color-box-shadow);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 15px 0;
+  min-height: 100%;
+  padding: 15px;
+  position: relative;
+
+  &__form-control {
+    display: inline-block;
+    margin-bottom: var(--margin-default);
+    position: relative;
+    width: 100%;
+
+    &:last-of-type {
+      margin-bottom: 0;
+      width: auto;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: var(--margin-small);
+  }
+
+  &__term,
+  &__media,
+  &__entity,
+  &__limit {
+    border: solid 1px var(--color-box-border);
+    outline: none;
+  }
+
+  &__term {
+    font-size: 15px;
+    padding: var(--padding-form-control);
+    width: 100%;
+
+    &:focus {
+      @include border-focus;
+    }
+  }
+
+  &__media {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-white);
+    font-size: 15px;
+    padding: var(--padding-form-control);
+    width: 100%;
+
+    &:focus {
+      @include border-focus;
+    }
+  }
+
+  &__entity {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-white);
+    font-size: 15px;
+    padding: var(--padding-form-control);
+    width: 100%;
+
+    &:focus {
+      @include border-focus;
+    }
+  }
+
+  &__select {
+    &::after {
+      color: var(--color-silver);
+      content: '\f078';
+      font: normal normal normal 17px/1 'FontAwesome';
+      height: 34px;
+      padding: 13px 0 0 8px;
+      pointer-events: none;
+      position: absolute;
+      right: 11px;
+      top: 12px;
+
+      &:focus {
+        @include border-focus;
+      }
+    }
+  }
+
+  &__limit {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-white);
+    font-size: 15px;
+    padding: var(--padding-form-control);
+    width: 65px;
+
+    &:focus {
+      @include border-focus;
+    }
+  }
+
+  &__btn-submit {
+    background: var(--color-royal-blue);
+    border: solid 1px var(--color-black);
+    bottom: var(--padding-default);
+    color: var(--color-white);
+    float: right;
+    font-size: 15px;
+    outline: none;
+    padding: var(--padding-form-control);
+    position: absolute;
+    right: var(--padding-default);
+    width: 87px;
+  }
+}

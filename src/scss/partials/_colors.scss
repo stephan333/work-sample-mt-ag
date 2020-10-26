@@ -1,0 +1,48 @@
+:root {
+  // colors
+  @include root-prop(--color-royal-blue, rgb(68, 129, 235));
+  @include root-prop(--color-royal-blue, rgb(68, 129, 235));
+  @include root-prop(--color-glacier, rgb(127, 161, 191));
+  @include root-prop(--color-black, rgb(0, 0, 0));
+  @include root-prop(--color-nero, rgb(36, 36, 36));
+  @include root-prop(--color-dim-gray, rgb(111, 111, 111));
+  @include root-prop(--color-gray-alpha, rgba(255, 255, 255, .5));
+  @include root-prop(--color-silver, rgb(182, 182, 182));
+  @include root-prop(--color-gainsboro, rgb(225, 225, 225));
+  @include root-prop(--color-white-smoke, rgb(238, 238, 238));
+  @include root-prop(--color-white, rgb(255, 255, 255));
+
+  // element colors
+  @include root-prop(--color-body-bg, var(--color-gainsboro));
+  @include root-prop(--color-header-bg, var(--color-nero));
+  @include root-prop(--color-header-border, var(--color-silver));
+  @include root-prop(--color-header-logo-filter, var(--color-silver));
+  @include root-prop(--color-header-logo-text, var(--color-dim-gray));
+  @include root-prop(--color-box-shadow, var(--color-silver));
+  @include root-prop(--color-box-border, var(--color-silver));
+  @include root-prop(--color-form-bg, var(--color-white-smoke));
+  @include root-prop(--color-form-control-border, var(--color-glacier));
+  @include root-prop(--color-results-header-bg, var(--color-white-smoke));
+  @include root-prop(--color-results-info, var(--color-nero));
+  @include root-prop(--color-results-label, var(--color-royal-blue));
+  @include root-prop(--color-results-artwork-border, var(--color-body));
+  @include root-prop(--color-font-default, var(--color-nero));
+  @include root-prop(--color-font-light, var(--color-nero));
+  @include root-prop(--color-loading-animation, var(--color-gray-alpha));
+  @include root-prop(--color-url-hover, var(--color-black));
+  @include root-prop(--color-result-track-url, var(--color-nero));
+  @include root-prop(--color-result-track-url-hover, var(--color-black));
+
+  // sizes
+  @include root-prop(--header-height, 100px);
+  @include root-prop(--panel-width-left, 400px);
+  @include root-prop(--panel-width-right, calc(100% - var(--panel-width-left) - var(--padding-default)));
+
+  // padding
+  @include root-prop(--padding-default, 15px);
+  @include root-prop(--padding-form-control, 5px);
+
+  // margin
+  @include root-prop(--margin-default, 10px);
+  @include root-prop(--margin-small, 2px);
+}

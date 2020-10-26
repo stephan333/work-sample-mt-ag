@@ -1,0 +1,9 @@
+@mixin root-prop($prop: null, $value: null) {
+  @if ($prop and $value) {
+    #{$prop}: $value;
+  }
+}
+
+@mixin border-focus {
+  border: solid 1px var(--color-form-control-border);
+}
