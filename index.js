@@ -1,9 +1,9 @@
 // scope
 var appVersion = '0.1.0';
 
-// scope, IIFE, namespace
+// scope, IIFE, namespace, this
 (function main(window) {
-    // var
+    // var, scope
     {
         var currentAppVersion = window.appVersion;
         var currentSearchTerm = null;
