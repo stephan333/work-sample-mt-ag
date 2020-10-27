@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "allowJs": true,
     "incremental": true,
-    "target": "es5",
-    "module": "commonjs",
+    "target": "es6",
+    "module": "System",
+    "moduleResolution": "node",
     "lib": [
       "ES2015",
       "DOM"
     ],
-    "allowJs": false,
     "checkJs": false,
     "sourceMap": true,
     "outDir": "./",
