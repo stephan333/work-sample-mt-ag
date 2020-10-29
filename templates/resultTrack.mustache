@@ -8,9 +8,7 @@
     <span class="search-result__track-name">
         <a translate="no" class="search-result__track-url" target="_blank" href="{{ trackUrl }}">{{ track }}</a>
         <span class="search-result__release-date">{{ releaseDate }}</span>
-        <audio class="search-result__audio-preview" src="{{ previewUrl }}" type="audio/x-m4a" controls>
-            <code>Dein Browser unterstützt kein Audio-Tag.</code>
-        </audio>
+        {{> audioPlayer }}
     </span>
     <span class="search-result__collection-name">
         <a translate="no" class="search-result__collection-url" target="_blank" href="{{ collectionViewUrl }}">{{ collection }}</a>

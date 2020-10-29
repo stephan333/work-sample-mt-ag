@@ -10,6 +10,10 @@ interface IBaseModel {
   releaseDate: string;
 }
 
+interface ISubTemplate {
+  [key: string]: string;
+}
+
 export function main(window: any) {
   const element = {
     BODY: "#body",
@@ -160,7 +164,15 @@ export function main(window: any) {
         previewUrl: entry.previewUrl,
         searchTerm,
       };
-      searchResultEntry = await generateTemplate(templateFile, templateVars);
+
+      const subTemplateObject = {
+        audioPlayer: "templates/audioPlayer.mustache",
+      };
+      searchResultEntry = await generateTemplate(
+        templateFile,
+        templateVars,
+        subTemplateObject
+      );
     }
 
     searchResultOutlet!!.appendChild(searchResultEntry!!);
@@ -171,12 +183,12 @@ export function main(window: any) {
       element.BODY
     );
     const templateFile = "templates/resultHeader.mustache";
-    const resultCount = iTunesDataObject.resultCount;
-    let resultCountString;
+    const resultCount: number = iTunesDataObject.resultCount;
+    let resultCountString: string;
 
     resultCountString = resultCount === 1 ? " ein" : `n ${resultCount}`;
 
-    const templateVars = {
+    const templateVars: object = {
       resultCountString,
       resultType: currentSearchType,
     };
@@ -198,8 +210,8 @@ export function main(window: any) {
     targetNode: HTMLElement
   ) {
     if (toggleValue === true) {
-      const templateFile = "templates/loadingAnimation.mustache";
-      const node = await generateTemplate(templateFile);
+      const templateFile: string = "templates/loadingAnimation.mustache";
+      const node: HTMLElement = await generateTemplate(templateFile) as HTMLElement;
 
       if (node !== null) {
         targetNode.appendChild(node);
@@ -220,18 +232,46 @@ export function main(window: any) {
     )}.${dateString.substr(0, 4)}`;
   }
 
-  async function generateTemplate(template: string, templateVars: any = null) {
-    // test
-    const xxx = await Promise.resolve(111);
-    console.log(xxx, 1111111111111111111111111);
+  async function generateTemplate(
+    template: string,
+    templateVars: object = {},
+    rawSubTemplateObject?: ISubTemplate
+  ) {
+    const templateFile: Response = await window.fetch(template);
+    const response: string = await templateFile.text();
+    let rendered: string;
 
-    const templateFile: any = await window.fetch(template);
-    const response = await templateFile.text();
-    const rendered = Mustache.render(response, templateVars);
-    const wrapperElement = document.createElement("div");
+    if (rawSubTemplateObject !== undefined) {
+      const subTemplateObject = await resolveSubTemplates(rawSubTemplateObject);
+
+      rendered = Mustache.render(response, templateVars, subTemplateObject);
+    } else {
+      rendered = Mustache.render(response, templateVars);
+    }
+
+    const wrapperElement: HTMLDivElement = document.createElement("div");
 
     wrapperElement.innerHTML = rendered;
 
     return wrapperElement.firstChild;
+  }
+
+  async function resolveSubTemplates(
+    rawSubTemplateObject: ISubTemplate
+  ): Promise<ISubTemplate> {
+    let subTemplate: ISubTemplate = {};
+
+    for (const key of Object.keys(rawSubTemplateObject)) {
+      const subTemplateResponse: Response = await window.fetch(
+        rawSubTemplateObject[key]
+      );
+      const subTemplateString: string = await subTemplateResponse.text();
+      subTemplate = {
+        ...subTemplate,
+        [key]: subTemplateString,
+      };
+    }
+
+    return subTemplate;
   }
 }
