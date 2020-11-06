@@ -10,11 +10,21 @@ interface IBaseModel {
   releaseDate: string | null;
 }
 
+interface IMusicTrackAdditionalModel {
+  track: string;
+  trackUrl: string;
+  previewUrl: string;
+  searchTerm: string;
+}
+
+interface IMusicTrackFullModel extends IBaseModel, IMusicTrackAdditionalModel {
+}
+
 interface ISubTemplate {
   [key: string]: string;
 }
 
-export function main(window: any) {
+export function main() {
   const element = {
     BODY: "#body",
     searchForm: {
@@ -37,7 +47,7 @@ export function main(window: any) {
   let currentSearchTerm: string | null = "";
   let currentSearchType: string = "";
 
-  window.console.log(`App-Version: ${currentAppVersion}`);
+  console.log(`App-Version: ${currentAppVersion}`);
 
   iTunesDataHandler();
 
@@ -147,7 +157,7 @@ export function main(window: any) {
     };
     let searchResultEntry;
     let templateFile;
-    let templateVars;
+    let templateVars: IMusicTrackFullModel;
 
     if (entry.wrapperType === "collection") {
       templateFile = "templates/resultCollection.mustache";
@@ -155,14 +165,17 @@ export function main(window: any) {
     } else {
       const track = entry.trackName;
       const searchTerm = encodeURIComponent(`${artist} ${track}`);
-
-      templateFile = "templates/resultTrack.mustache";
-      templateVars = {
-        ...baseModel,
+      const musicTrackModel: IMusicTrackAdditionalModel = {
         track,
         trackUrl: entry.trackViewUrl,
         previewUrl: entry.previewUrl,
         searchTerm,
+      };
+
+      templateFile = "templates/resultTrack.mustache";
+      templateVars = {
+        ...baseModel,
+        ...musicTrackModel,
       };
 
       const subTemplateObject = {
@@ -230,7 +243,7 @@ export function main(window: any) {
           5,
           2
         )}.${dateString.substr(0, 4)}`
-      : ' unbekannt';
+      : " unbekannt";
   }
 
   async function generateTemplate(
@@ -238,7 +251,7 @@ export function main(window: any) {
     templateVars: object = {},
     rawSubTemplateObject?: ISubTemplate
   ): Promise<HTMLElement> {
-    const templateFile: Response = await window.fetch(template);
+    const templateFile: Response = await fetch(template);
     const response: string = await templateFile.text();
     let rendered: string;
 
@@ -264,7 +277,7 @@ export function main(window: any) {
     let subTemplate: ISubTemplate = {};
 
     for (const key of Object.keys(rawSubTemplateObject)) {
-      const subTemplateResponse: Response = await window.fetch(
+      const subTemplateResponse: Response = await fetch(
         rawSubTemplateObject[key]
       );
       const subTemplateString: string = await subTemplateResponse.text();
