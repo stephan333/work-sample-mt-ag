@@ -175,7 +175,7 @@ export function main(window: any) {
       );
     }
 
-    searchResultOutlet!!.appendChild(searchResultEntry!!);
+    searchResultOutlet?.appendChild(searchResultEntry!!);
   }
 
   async function generateSearchResults(iTunesDataObject: any) {
@@ -194,7 +194,7 @@ export function main(window: any) {
     };
     const node = await generateTemplate(templateFile, templateVars);
 
-    searchResultOutlet!!.appendChild(node!!);
+    searchResultOutlet?.appendChild(node!!);
     iTunesDataObject.results.forEach(generateSearchResultEntry);
     showLoadingAnimation(false, bodyElement!!);
   }
@@ -211,11 +211,10 @@ export function main(window: any) {
   ) {
     if (toggleValue === true) {
       const templateFile: string = "templates/loadingAnimation.mustache";
-      const node: HTMLElement = await generateTemplate(templateFile) as HTMLElement;
-
-      if (node !== null) {
-        targetNode.appendChild(node);
-      }
+      const node: HTMLElement = (await generateTemplate(
+        templateFile
+      )) as HTMLElement;
+      targetNode?.appendChild(node);
     } else {
       const loadingAnimationNode: HTMLElement = targetNode.lastChild as HTMLElement;
 
@@ -249,7 +248,8 @@ export function main(window: any) {
       rendered = Mustache.render(response, templateVars);
     }
 
-    const wrapperElement: HTMLDivElement = document.createElement("div");
+    const htmlTag: keyof HTMLElementTagNameMap = "div";
+    const wrapperElement: HTMLDivElement = document.createElement(htmlTag);
 
     wrapperElement.innerHTML = rendered;
 
