@@ -7,7 +7,7 @@ interface IBaseModel {
   collectionViewUrl: string;
   artwork: string;
   artistUrl: string;
-  releaseDate: string;
+  releaseDate: string | null;
 }
 
 interface ISubTemplate {
@@ -225,17 +225,19 @@ export function main(window: any) {
   }
 
   function englishToGermanDate(dateString: string) {
-    return `${dateString.substr(8, 2)}.${dateString.substr(
-      5,
-      2
-    )}.${dateString.substr(0, 4)}`;
+    return isValidHyphenatedEnglishDate(dateString)
+      ? `${dateString.substr(8, 2)}.${dateString.substr(
+          5,
+          2
+        )}.${dateString.substr(0, 4)}`
+      : ' unbekannt';
   }
 
   async function generateTemplate(
     template: string,
     templateVars: object = {},
     rawSubTemplateObject?: ISubTemplate
-  ) {
+  ): Promise<HTMLElement> {
     const templateFile: Response = await window.fetch(template);
     const response: string = await templateFile.text();
     let rendered: string;
@@ -253,7 +255,7 @@ export function main(window: any) {
 
     wrapperElement.innerHTML = rendered;
 
-    return wrapperElement.firstChild;
+    return wrapperElement.firstChild!! as HTMLElement;
   }
 
   async function resolveSubTemplates(
@@ -273,5 +275,19 @@ export function main(window: any) {
     }
 
     return subTemplate;
+  }
+
+  function isValidHyphenatedEnglishDate(date: string) {
+    const hyphenatedEnglishDate = /^((19|20)\d{2})-((0[1-9]|1[012]))-((0[1-9]|[12]\d|3[01]))T/;
+    const dateHasCorrectSyntax = hyphenatedEnglishDate.test(date);
+
+    if (dateHasCorrectSyntax === true) {
+      const dayOfMonthInString: number = +date.substr(8, 2);
+      const dayOfMonthInCalendar: number = new Date(date).getDate();
+
+      return dayOfMonthInString === dayOfMonthInCalendar ? true : false;
+    } else {
+      return false;
+    }
   }
 }
